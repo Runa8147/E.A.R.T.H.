@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full height */
+            margin: 0; /* Remove default margin */
+            background-color: #f4f4f4; /* Light background */
+        }
+        .report-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            width: 300px; /* Fixed width for the form */
+        }
+        input, textarea {
+            width: 100%; /* Full width */
+            padding: 10px; /* Padding for inputs */
+            margin: 10px 0; /* Spacing between inputs */
+            border: 1px solid #ccc; /* Border for inputs */
+            border-radius: 4px; /* Rounded corners */
+        }
+        button {
+            background-color: #003366; /* Button color */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            cursor: pointer; /* Pointer cursor */
+            padding: 10px; /* Padding for button */
+            border-radius: 4px; /* Rounded corners */
+        }
+        button:hover {
+            background-color: #005f99; /* Darker button color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h2>Create a Report</h2>
+        <form id="report-form">
+            <input type="text" id="title" placeholder="Title" required>
+            <textarea id="desc" placeholder="Description" rows="4" required></textarea>
+            <input type="file" id="rep_img" accept="image/*" required>
+            <button type="button" id="submit-button">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('submit-button').addEventListener('click', async function() {
+            const title = document.getElementById('title').value;
+            const desc = document.getElementById('desc').value;
+            const image = document.getElementById('rep_img').files[0];
+
+            if (!title || !desc || !image) {
+                alert('All fields are mandatory.');
+                return;
+            }
+
+            // Prepare form data to send to Supabase
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', desc);
+            formData.append('image', image);
+
+            try {
+                const response = await fetch(supabaseKey, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer YOUR_SUPABASE_ANON_KEY', // If required
+                    },
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Report submitted successfully!');
+                    // Optionally, reset the form
+                    document.getElementById('report-form').reset();
+                } else {
+                    alert('Failed to submit the report. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting the report:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>

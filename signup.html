@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E.A.R.T.H. Project - Sign Up</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa; /* Light background color */
+        }
+
+        .signup-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px; /* Set a maximum width for the container */
+            width: 90%; /* Make it responsive */
+            text-align: center; /* Center align text */
+        }
+
+        h2 {
+            margin-bottom: 20px; /* Space below the title */
+            color: #003366; /* Darker color for the title */
+        }
+
+        input {
+            display: block;
+            margin: 10px auto; /* Center align inputs */
+            padding: 10px; /* More padding for better touch targets */
+            width: 90%; /* Use most of the container width */
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 5px; /* Slightly rounded corners */
+        }
+
+        input:focus {
+            border-color: #003366; /* Change border color on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        button {
+            margin-top: 15px; /* More space above the button */
+            padding: 10px 15px;
+            background-color: #003366; /* Button background color */
+            color: white;
+            border: none;
+            border-radius: 5px; /* Slightly rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        button:hover {
+            background-color: #00509e; /* Darker shade on hover */
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px; /* Slightly smaller font for error messages */
+        }
+
+        a {
+            color: #003366; /* Link color */
+            text-decoration: none; /* Remove underline */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Create an Account</h2>
+        <form id="signup-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="number" id="age" placeholder="Age" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <button type="button" id="signup-button">Sign Up</button>
+            <p>Already have an account? <a href="login.html">Log in</a></p>
+            <p class="error" id="error-message"></p>
+        </form>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://tijevatcuxldctpwwflh.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpamV2YXRjdXhsZGN0cHd3ZmxoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgxMTM1NzksImV4cCI6MjA0MzY4OTU3OX0.KZiGvJK7jEYrxOIohAHxHey24iZCGd11o2eHqk4OMfg';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Validate and Signup functionality
+        document.getElementById('signup-button').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            errorMessage.textContent = ''; // Clear any previous error messages
+
+            // Validate inputs
+            let flag = 1; // Initialize flag
+            if (!email || !age || !password || !confirmPassword) {
+                errorMessage.textContent = "Please fill in all fields.";
+                flag = 0;
+            } else if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords do not match.";
+                flag = 0;
+            }
+
+            // If validation passes
+            if (flag === 1) {
+                try {
+                    // Sign up user
+                    const { user, error } = await supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) throw error;
+
+                    // Add additional user data to a custom table
+                    const { data, error: profileError } = await supabase
+                        .from('profiles')
+                        .insert([{ user_id: user.id, age: age }]);
+
+                    if (profileError) throw profileError;
+
+                    alert('Signup successful!'); // Notify user
+                    window.location.href = 'login.html'; // Redirect to login page
+                } catch (error) {
+                    errorMessage.textContent = error.message; // Display error
+                }
+            }
+        });
+    </script>
+</body>
+</html>
