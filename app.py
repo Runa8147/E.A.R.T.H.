@@ -105,7 +105,7 @@ def add_new_marker():
     with st.form("add_marker_form"):
         name = st.text_input("Report Title")
         description = st.text_area("Description")
-        uploaded_file = st.file_uploader("Upload Image", type=['png', 'jpg', 'jpeg'])
+        uploaded_file = st.camera_input("Take photo", type=['png', 'jpg', 'jpeg'])
         latitude = st.number_input("Latitude", min_value=-90.0, max_value=90.0)
         longitude = st.number_input("Longitude", min_value=-180.0, max_value=180.0)
 
