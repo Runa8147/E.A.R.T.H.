@@ -1,0 +1,40 @@
+# E.A.R.T.H. (Environmental Action & Response Through Human-AI Technology)
+
+## 🌍 Overview
+E.A.R.T.H. is an innovative platform designed to empower communities in taking action against environmental issues. By harnessing the power of AI and gamification, we provide a user-friendly space where individuals can report problems, share insights, and collaborate for a sustainable future.
+
+## 🚀 Features
+- *Interactive Map:* Easily pinpoint environmental issues and share updates in real-time.
+- AI-Powered Insights : Automatically analyze uploaded images using the Gemini API to identify environmental problems.
+- Community Engagement : Join discussions, follow other users, and collaborate on projects.
+- Gamification :  Earn points, badges, and rewards for contributing to sustainability efforts.
+
+## 🛠 Technologies Used
+- Gemini API : For advanced image recognition and classification of environmental issues.
+- Folium & OpenStreetMap : To create interactive maps that visualize user-reported data.
+- Streamlit : For building an intuitive and responsive web interface.
+- Supabase : For user authentication and real-time database management.
+- Python : The backbone of our application, powering the logic and integration of all components.
+
+## 📚 How to Get Started
+1. Clone the Repository :
+   bash
+   git clone https://github.com/yourusername/EARTH.git
+   cd EARTH
+   
+2. *Install Dependencies:*
+   bash
+   pip install -r requirements.txt
+   
+3. *Run the Application:*
+   bash
+   streamlit run app.py
+   
+
+## 🤝 Contributing
+We welcome contributions! If you have ideas, suggestions, or improvements, feel free to open an issue or submit a pull request.
+
+## 🌟 Join Us
+Become a part of the E.A.R.T.H. community! Together, we can make a difference in our environment and promote sustainability. 
+
+For more information and updates, check out our documentation : https://ai.google.dev/gemini-api/docs
