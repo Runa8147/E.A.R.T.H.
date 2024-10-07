@@ -54,7 +54,6 @@ Before you begin, ensure you have met the following requirements:
    ```
    SUPABASE_URL=your_supabase_project_url
    SUPABASE_KEY=your_supabase_project_api_key
-   IPINFO_API_KEY=your_ipinfo_api_key
    GOOGLE_API_KEY=your_google_api_key
    ```
 
