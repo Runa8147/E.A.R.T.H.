@@ -5,10 +5,20 @@ import streamlit as st
 
 # Configure the Gemini API (make sure to use your actual API key)
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+generation_config = {
+  "temperature": 1,
+  "top_p": 0.95,
+  "top_k": 40,
+  "max_output_tokens": 8192,
+  "response_mime_type": "application/json",
+}
+
+model = genai.GenerativeModel(
+  model_name="gemini-1.5-flash-8b",
+  generation_config=generation_config,
+)
 
 def analyze_image(image: Image.Image) -> str:
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
-    
     prompt = """
     Analyze the given image and provide a detailed report in JSON format. The JSON should include the following keys:
 
