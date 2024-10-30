@@ -8,7 +8,7 @@ import uuid
 import base64
 from typing import List, Dict, Any
 from PIL import Image
-from sample import analyze_image
+from gemini import analyze_image
 import json
 
 # Constants
