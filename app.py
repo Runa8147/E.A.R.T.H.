@@ -42,7 +42,7 @@ def fetch_location_data() -> List[Dict[str, Any]]:
         return []
 
 def create_map(map_data: List[Dict[str, Any]]) -> folium.Map:
-    m = folium.Map(location=[10, 75.0], zoom_start=5)
+    m = folium.Map(location=[10, 77.0], zoom_start=8)
     marker_cluster = MarkerCluster().add_to(m)
 
     for entry in map_data:
