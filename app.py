@@ -8,7 +8,7 @@ import uuid
 import base64
 from typing import List, Dict, Any
 from PIL import Image
-from gemini import analyze_image
+from sample import analyze_image
 import json
 
 # Constants
@@ -92,7 +92,7 @@ def insert_location(name: str, description: str, image_path: str, latitude: floa
             "latitude": latitude,
             "longitude": longitude,
             "image_url": image_path,
-            "priority_score": ai_analysis.get("priority_score", 0),
+            "priority_score": int(ai_analysis.get("priority_score", 0)),
             "tag": ai_analysis.get("tag", ""),
             "ai_analysis": json.dumps(ai_analysis),
         }
@@ -117,14 +117,11 @@ def add_new_marker():
 
             analysis_result = analyze_image(image)
             st.success("Image analysis completed.")
-            
+            ai_analysis_data = json.loads(analysis_result)
             try:
-                # Attempt to parse the JSON string
-                ai_analysis_data = json.loads(analysis_result)
-                
                 # Check if the expected keys are present in the parsed data
                 if "ai_analysis" not in ai_analysis_data:
-                    raise ValueError("Missing 'ai_analysis' key in the result")
+                    st.error("Missing 'ai_analysis' key in the result")
                 
                 st.subheader("Image Analysis:")
                 st.write(ai_analysis_data["ai_analysis"])
